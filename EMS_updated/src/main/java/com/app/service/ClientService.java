@@ -18,5 +18,7 @@ public interface ClientService {
    List<ResponseClientDTO> findAll();
 
    ResponseClientDTO findById(Long id);
+   
+   ResponseClientDTO partialUpdateClient(Long clientId ,UpdateClientDTO clientDto);
 
 }

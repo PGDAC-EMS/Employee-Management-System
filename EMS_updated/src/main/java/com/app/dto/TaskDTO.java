@@ -1,8 +1,11 @@
 package com.app.dto;
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.app.entities.Employee;
+import com.app.entities.Project;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -26,18 +29,18 @@ public class TaskDTO {
 	private String tDesc;
 	   
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date tAssignDate;
+	private LocalDate tAssignDate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date tEndDate;
+	private LocalDate tEndDate;
 	   
 	private String approvalStatus;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date tAcceptDate;
+	private LocalDate tAcceptDate;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date tSubmittedDate;
+	private LocalDate tSubmittedDate;
 
 
 	private String tSubmissionStatus;
@@ -47,5 +50,9 @@ public class TaskDTO {
 	private String remark;
 
 	private String tStatus;
+	
+	private Project ProjectId;
+	
+	private Employee EmpId;
 
 }

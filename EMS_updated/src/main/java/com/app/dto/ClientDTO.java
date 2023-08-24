@@ -31,8 +31,5 @@ public class ClientDTO {
  
     private String cLocation;
 
-	public static void main(String[] args) {
-	
-	}
 
 }

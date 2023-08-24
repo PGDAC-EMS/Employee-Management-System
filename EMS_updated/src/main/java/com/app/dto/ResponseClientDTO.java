@@ -1,7 +1,6 @@
 package com.app.dto;
 
-import java.time.LocalDate;
-import java.util.List;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -30,7 +29,5 @@ public class ResponseClientDTO {
  
     private String cLocation;
     
-    @JsonProperty(access = Access.READ_ONLY) 
-    private List<ResponseProjectDTO> projectList;
 
 }

@@ -2,6 +2,8 @@ package com.app.service;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -51,9 +53,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 	@Override
-	public List<Employee> findAll() {
-		// TODO Auto-generated method stub
-		return empDao.findAll();
+	public List<ResponseEmpDTO> findAll() {
+		List<Employee> empList=empDao.findAll();
+		return empList.stream()
+				.map(employee -> mapper.map(employee,ResponseEmpDTO.class))
+				.collect(Collectors.toList());
+		
+
 	}
 
 	@Override
@@ -114,9 +120,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Department dept = deptDao.findById(dto.getDeptId())
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid Dept Id!!!"));
 		// dto contains the updates , so apply it --> to entity
+		dto.setGender(emp.getGender());
+		//dto.setDeptId(emp.getDept().getId());
+		dto.setBirthDate(emp.getBirthDate());
+		dto.setSalary(emp.getSalary());
+		dto.setJoinDate(emp.getJoinDate());
 		mapper.map(dto, emp);// but after this id : null
 		emp.setId(empId);// so setting it again
 		// System.out.println("after mapping " + emp);
+	  
 		dept.addEmployee(emp);
 		return mapper.map(emp,ResponseEmpDTO.class);
 	

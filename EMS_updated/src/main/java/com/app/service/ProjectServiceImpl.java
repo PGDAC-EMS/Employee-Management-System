@@ -3,6 +3,7 @@ package com.app.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,9 @@ public class ProjectServiceImpl  implements ProjectService{
 	
 	@Autowired
 	private ModelMapper mapper;
+	
+	 @Autowired
+	 private EntityManager entityManager;
 
 	@Override
 	public ResponseProjectDTO addProject(AddProjectDTO pro) {
@@ -53,8 +57,8 @@ public class ProjectServiceImpl  implements ProjectService{
 	@Override
 	public Project updateProject(Long projectId ,UpdateProjectDTO pro) {
 		Project project=mapper.map(findById(projectId), Project.class);
-		Client client = clientDao.findById(pro.getClientId())
-				.orElseThrow(() -> new ResourceNotFoundException("Invalid client id!!!"));
+//		Client client = clientDao.findById(pro.getClientId())
+//				.orElseThrow(() -> new ResourceNotFoundException("Invalid client id!!!"));
 //		pro.setPCreatedBy(project.getPCreatedBy());
 //		pro.setPDesc(project.getPDesc());
 //		pro.setPName(project.getPName());
@@ -63,9 +67,12 @@ public class ProjectServiceImpl  implements ProjectService{
 		mapper.map(pro, project);
 		project.setId(projectId);
 		//client.addProject(project);
-		projectDao.save(project);
-		return project;
+		Project updatedProject = entityManager.merge(project);
+		return updatedProject;
 	}
+	
+	
+	
 
 	@Override
 	public ResponseProjectDTO findById(Long id) {
@@ -105,6 +112,20 @@ public class ProjectServiceImpl  implements ProjectService{
 	@Override
 	public long countAll() {
 		return projectDao.count();
+	}
+
+	@Override
+	public Project update(Long projectId ,Project pro) {
+		Project project = mapper.map(findById(projectId), Project.class);
+		project.setPName(pro.getPName());
+		project.setPDesc(pro.getPDesc());
+		project.setPStartDate(pro.getPStartDate());
+		project.setPEndDate(pro.getPEndDate());
+		project.setPSubmittedDate(pro.getPSubmittedDate());
+		project.setPProgress(pro.getPProgress());
+		project.setPReport(pro.getPReport());
+		project.setStatus(pro.getStatus());
+		return projectDao.save(pro) ;
 	}
 
 }

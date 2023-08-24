@@ -24,5 +24,7 @@ public interface ProjectService {
    int countByStatus(String status);
 
    long countAll();
+   
+   Project update(Long projectId, Project pro);
 
 }

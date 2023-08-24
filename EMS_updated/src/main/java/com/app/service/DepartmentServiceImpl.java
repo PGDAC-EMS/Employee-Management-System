@@ -2,6 +2,7 @@ package com.app.service;
 
 import java.util.List;
 //import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -26,9 +27,11 @@ public class DepartmentServiceImpl implements DepartmentService{
 	private DepartmentRepo deptDao;
 
 	@Override
-	public List<Department> findAll() {
-		// TODO Auto-generated method stub
-		return deptDao.findAll();
+	public List<DepartmentDTO> findAll() {
+		List<Department> deptList=deptDao.findAll();
+		return deptList.stream()
+				.map(dept->mapper.map(dept, DepartmentDTO.class))
+				.collect(Collectors.toList());
 	}
 	
 	@Override

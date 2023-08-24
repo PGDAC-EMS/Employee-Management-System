@@ -18,7 +18,7 @@ public interface TaskRepo extends JpaRepository<Task,Long> {
 	      value = "SELECT * FROM tasks where id = ?1 ",
 	      nativeQuery = true
 	   )
-	   List<Task> findByProject(Project pid);
+	   List<Task> findByProject(Long projectId);
 
 	   int countByApprovalStatus(String approvalStatus);
 

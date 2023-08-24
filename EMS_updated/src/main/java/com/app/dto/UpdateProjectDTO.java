@@ -1,6 +1,7 @@
 package com.app.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +10,7 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.app.entities.Task;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -55,5 +57,7 @@ public class UpdateProjectDTO {
 	   private String status;
 	
        private Long clientId;
+       
+       private List<Task> taskList;
 
 }

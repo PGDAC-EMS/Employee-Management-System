@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -65,5 +66,11 @@ public class EmployeeController {
 	@PutMapping("/forgetPassword")
 	public ResponseEntity<?> changePassword ( @RequestBody  @Valid ForgotPasswordDTO emp ) {
 			return ResponseEntity.status(HttpStatus.OK).body(empService.forgetPassword(emp));
+	}
+	
+	
+	@GetMapping
+	public ResponseEntity<?> getAllEmployees(){
+		return ResponseEntity.status(HttpStatus.OK).body(empService.findAll());
 	}
 }
