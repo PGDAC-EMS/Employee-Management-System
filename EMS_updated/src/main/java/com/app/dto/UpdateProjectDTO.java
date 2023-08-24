@@ -1,6 +1,9 @@
 package com.app.dto;
 
 import java.time.LocalDate;
+
+import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -58,6 +61,8 @@ public class UpdateProjectDTO {
 	
        private Long clientId;
        
-       private List<Task> taskList;
+
+     private List<Task> taskList =new ArrayList<>();
+
 
 }

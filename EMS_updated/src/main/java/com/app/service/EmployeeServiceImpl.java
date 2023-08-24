@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.AddEmpDTO;
@@ -39,9 +39,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		private ModelMapper mapper;
 	   
 //	   @Autowired
-//	   private StorageService storageService;
-//	   @Autowired
-//	   public PasswordEncoder passwordEncoder;
+ //   private StorageService storageService;
+	   @Autowired
+	   public PasswordEncoder passwordEncoder;
 
 	   public EmployeeServiceImpl() {
 		  
@@ -86,17 +86,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public AuthResp authenticate(AuthRequest request) {
-		Employee emp=empDao.
-				findByEmailAndPassword(request.getEmail(), request.getPassword())
-				.orElseThrow(() -> new ResourceNotFoundException("Invalid Email or Password !!!!!"));
-		//=> valid login --> map Entity --> DTO
-		//ModelMapper API : public T map(Object src , Class<T> class)
-		return mapper.map(emp, AuthResp.class);
+		/*
+		 * Employee emp=empDao. findByEmailAndPassword(request.getEmail(),
+		 * request.getPassword()) .orElseThrow(() -> new
+		 * ResourceNotFoundException("Invalid Email or Password !!!!!")); //=> valid
+		 * login --> map Entity --> DTO //ModelMapper API : public T map(Object src ,
+		 * Class<T> class) return mapper.map(emp, AuthResp.class);
+		 */
+		Employee emp = empDao.findByEmail(request.getEmail()).orElseThrow(() -> new ResourceNotFoundException("Invalid emailId !!!!"));
+		if(emp != null && passwordEncoder.matches(request.getPassword(), emp.getPassword()))
+			return mapper.map(emp, AuthResp.class);
+		return null;
 	}
 
 	@Override
 	public ResponseEmpDTO addEmp(AddEmpDTO emp) {
-
+		String encPass = passwordEncoder.encode( emp.getPassword());
+		emp.setPassword(encPass);
 		Department dept = deptDao.findById(emp.getDeptId())
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid Dept id !!!"));
 		// dept : PERSISTENT
