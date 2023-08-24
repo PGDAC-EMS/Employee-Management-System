@@ -39,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public List<ResponseClientDTO> findAll() {
 		List<Client> clientList=clientDao.findAll();
-		TypeMap<Client, ResponseClientDTO> typeMap = mapper.createTypeMap(Client.class, ResponseClientDTO.class);
+		//TypeMap<Client, ResponseClientDTO> typeMap = mapper.createTypeMap(Client.class, ResponseClientDTO.class);
 		return clientList.stream() 
 				.map(client -> mapper.map(client, ResponseClientDTO.class)) 
 				.collect(Collectors.toList());
@@ -78,6 +78,27 @@ public class ClientServiceImpl implements ClientService {
 		Client client=mapper.map(findById(clientId), Client.class);
 		clientDao.delete(client);
 		return new ApiResponse("client deleted Successfully!!");
+	}
+	
+	
+
+
+	@Override
+	public ResponseClientDTO partialUpdateClient(Long clientId ,UpdateClientDTO clientDto) {
+		Client existingClient = clientDao.findById(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+
+        if (clientDto.getCName() != null) {
+            existingClient.setCName(clientDto.getCName());
+        }
+        if (clientDto.getCEmail() != null) {
+            existingClient.setCEmail(clientDto.getCEmail());
+        }
+        if (clientDto.getCContact() != null) {
+            existingClient.setCContact(clientDto.getCContact());
+        }
+
+        return mapper.map(clientDao.save(existingClient),ResponseClientDTO.class);
 	}
 
 	  

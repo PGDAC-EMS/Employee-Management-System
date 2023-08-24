@@ -33,7 +33,7 @@ public class ProjectController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(proService.addProject(project));
 	}
 	
-	@GetMapping("/{projectId}")
+	@GetMapping("/project/{projectId}")
 	public ResponseEntity<?> getProjectById(@PathVariable Long projectId){
 		return ResponseEntity.status(HttpStatus.OK).body(proService.findById(projectId));
 	}
@@ -72,5 +72,11 @@ public class ProjectController {
 //		pro.setPStartDate(project1.getPStartDate());
 //		pro.setClientId(project1.getClient().getId());
 		return ResponseEntity.status(HttpStatus.OK).body(proService.updateProject(pro.getId(),pro));
+	}
+	@PutMapping("/project/{projectId}")
+	public ResponseEntity<?> updatingProject(@PathVariable Long projectId,@RequestBody @Valid Project pro){
+		pro.setId(projectId);
+
+		return ResponseEntity.status(HttpStatus.OK).body(proService.update(projectId,pro));
 	}
 }

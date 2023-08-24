@@ -9,7 +9,7 @@ import com.app.entities.Department;
 
 public interface DepartmentService {
 	
-	List<Department> findAll();
+	List<DepartmentDTO> findAll();
 
 	//Optional<Department> findById(int id);
 

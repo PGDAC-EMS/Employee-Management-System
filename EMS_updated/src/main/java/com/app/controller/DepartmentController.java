@@ -26,6 +26,11 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService deptService;
 	
+	@GetMapping
+	public ResponseEntity<?> getAllDepts(){
+		return ResponseEntity.ok(deptService.findAll());
+	}
+	
 	@GetMapping("/{deptId}")
 	public ResponseEntity<?> getDeptDetails(@PathVariable @Min(1) @Max(10) Long deptId) {
 		System.out.println("in get dept dtls " + deptId);

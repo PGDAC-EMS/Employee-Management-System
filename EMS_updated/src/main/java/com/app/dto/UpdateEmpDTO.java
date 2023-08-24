@@ -34,10 +34,10 @@ public class UpdateEmpDTO {
 	   //@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[#@$*]).{5,20})", message = "Blank or invalid password !!!")
 	   private String password;
 	   
-	   @JsonProperty(access = Access.READ_ONLY) 
+	   //@JsonProperty(access = Access.READ_ONLY) 
 	   private String designation;
 	   
-	   @JsonProperty(access = Access.READ_ONLY) 
+	   //@JsonProperty(access = Access.READ_ONLY) 
 	   private Long managerId;
 	   
 	   @JsonProperty(access = Access.READ_ONLY) 
@@ -47,6 +47,7 @@ public class UpdateEmpDTO {
 	   @JsonProperty(access = Access.READ_ONLY) 
 	   private double salary;
 	   
+	   @JsonProperty(access = Access.READ_ONLY)
 	   private String gender;
 	   
 	   private String contact;
@@ -61,6 +62,7 @@ public class UpdateEmpDTO {
 	   
 	   private String securityQuestion;
 	   
+	   //@JsonProperty(access = Access.READ_ONLY)
 	   private Long deptId;
 
 }

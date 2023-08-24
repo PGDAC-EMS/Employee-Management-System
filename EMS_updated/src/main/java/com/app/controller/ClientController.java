@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.AddClientDTO;
+import com.app.dto.ResponseClientDTO;
 import com.app.dto.UpdateClientDTO;
+import com.app.entities.Client;
 import com.app.service.ClientService;
 
 @RestController
@@ -56,4 +59,15 @@ public class ClientController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(clientService.update(clientId, dto));
 		
 	}
- }
+
+
+	    @PatchMapping("/{clientId}")
+	    public ResponseEntity<?> updateClients(@PathVariable Long clientId, @RequestBody UpdateClientDTO  clientDto) {
+	        ResponseClientDTO updatedClient = clientService.partialUpdateClient(clientId, clientDto);
+	        return ResponseEntity.ok(updatedClient);
+	    }
+
+	    
+}
+
+ 

@@ -22,10 +22,10 @@ public class UpdateClientDTO {
 	private Long id;
 	
 	
-	@JsonProperty(access = Access.READ_ONLY)
+	//@JsonProperty(access = Access.READ_ONLY)
     private String cName;
    
-	@JsonProperty(access = Access.READ_ONLY)
+	//@JsonProperty(access = Access.READ_ONLY)
     private String cCompany;
    
 	@NotBlank(message = "Email can't be blank or null!!!")

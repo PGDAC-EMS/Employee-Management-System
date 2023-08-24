@@ -2,11 +2,13 @@ package com.app.service;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.AddEmpDTO;
@@ -37,9 +39,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		private ModelMapper mapper;
 	   
 //	   @Autowired
-//	   private StorageService storageService;
-//	   @Autowired
-//	   public PasswordEncoder passwordEncoder;
+ //   private StorageService storageService;
+	   @Autowired
+	   public PasswordEncoder passwordEncoder;
 
 	   public EmployeeServiceImpl() {
 		  
@@ -51,9 +53,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 	@Override
-	public List<Employee> findAll() {
-		// TODO Auto-generated method stub
-		return empDao.findAll();
+	public List<ResponseEmpDTO> findAll() {
+		List<Employee> empList=empDao.findAll();
+		return empList.stream()
+				.map(employee -> mapper.map(employee,ResponseEmpDTO.class))
+				.collect(Collectors.toList());
+		
+
 	}
 
 	@Override
@@ -80,17 +86,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public AuthResp authenticate(AuthRequest request) {
-		Employee emp=empDao.
-				findByEmailAndPassword(request.getEmail(), request.getPassword())
-				.orElseThrow(() -> new ResourceNotFoundException("Invalid Email or Password !!!!!"));
-		//=> valid login --> map Entity --> DTO
-		//ModelMapper API : public T map(Object src , Class<T> class)
-		return mapper.map(emp, AuthResp.class);
+		/*
+		 * Employee emp=empDao. findByEmailAndPassword(request.getEmail(),
+		 * request.getPassword()) .orElseThrow(() -> new
+		 * ResourceNotFoundException("Invalid Email or Password !!!!!")); //=> valid
+		 * login --> map Entity --> DTO //ModelMapper API : public T map(Object src ,
+		 * Class<T> class) return mapper.map(emp, AuthResp.class);
+		 */
+		Employee emp = empDao.findByEmail(request.getEmail()).orElseThrow(() -> new ResourceNotFoundException("Invalid emailId !!!!"));
+		if(emp != null && passwordEncoder.matches(request.getPassword(), emp.getPassword()))
+			return mapper.map(emp, AuthResp.class);
+		return null;
 	}
 
 	@Override
 	public ResponseEmpDTO addEmp(AddEmpDTO emp) {
-
+		String encPass = passwordEncoder.encode( emp.getPassword());
+		emp.setPassword(encPass);
 		Department dept = deptDao.findById(emp.getDeptId())
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid Dept id !!!"));
 		// dept : PERSISTENT
@@ -114,9 +126,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Department dept = deptDao.findById(dto.getDeptId())
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid Dept Id!!!"));
 		// dto contains the updates , so apply it --> to entity
+		dto.setGender(emp.getGender());
+		//dto.setDeptId(emp.getDept().getId());
+		dto.setBirthDate(emp.getBirthDate());
+		dto.setSalary(emp.getSalary());
+		dto.setJoinDate(emp.getJoinDate());
 		mapper.map(dto, emp);// but after this id : null
 		emp.setId(empId);// so setting it again
 		// System.out.println("after mapping " + emp);
+	  
 		dept.addEmployee(emp);
 		return mapper.map(emp,ResponseEmpDTO.class);
 	

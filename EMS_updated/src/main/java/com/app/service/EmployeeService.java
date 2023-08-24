@@ -15,7 +15,7 @@ import com.app.exception.ApiException;
 
 
 public interface EmployeeService {
-	List<Employee> findAll();
+	List<ResponseEmpDTO> findAll();
 
    List<Employee> findByManagerId(Long mid);
 

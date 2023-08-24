@@ -61,14 +61,14 @@ public class Project extends BaseEntity {
    private List<Task> projectTaskList;
    
    public void setProjectTaskList(List<Task> projectTaskList) {
-	   if(projectTaskList instanceof PersistentList)
-           this.projectTaskList = projectTaskList;
-	   else {
-		   this.projectTaskList.clear();
-		   this.projectTaskList.addAll(projectTaskList);
-	   }
-	   
-   }
+	    if (projectTaskList instanceof PersistentList) {
+	        this.projectTaskList = projectTaskList;
+	    } else {
+	        this.projectTaskList.clear();
+	        this.projectTaskList.addAll(projectTaskList);
+	    }
+	}
+
    
    
    public void addProjectTask(Task t) {
