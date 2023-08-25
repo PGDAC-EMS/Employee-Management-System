@@ -1,5 +1,6 @@
 package com.app.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -25,30 +26,29 @@ public class Task extends BaseEntity {
    private String tDesc;
    
    @DateTimeFormat(pattern = "yyyy-MM-dd")
-   @Temporal(TemporalType.DATE)
+   
    @Column( name = "t_assignDate")
-   private Date tAssignDate;
+   private LocalDate tAssignDate;
    
    @DateTimeFormat(pattern = "yyyy-MM-dd")
-   @Temporal(TemporalType.DATE)
+  
    @Column(name = "t_endDate")
-   private Date tEndDate;
+   private LocalDate tEndDate;
    
    @Column(name = "t_approvalStatus")
    private String approvalStatus;
    
    @DateTimeFormat(pattern = "yyyy-MM-dd")
-   @Temporal(TemporalType.DATE)
+   
    @Column(
       name = "t_acceptDate"
    )
-   private Date tAcceptDate;
+   private LocalDate tAcceptDate;
    @DateTimeFormat(pattern = "yyyy-MM-dd")
-   @Temporal(TemporalType.DATE)
-   @Column(
-      name = "t_submittedDate"
-   )
-   private Date tSubmittedDate;
+ 
+
+   @Column(name = "t_submittedDate")
+   private LocalDate tSubmittedDate;
    
    @Column(name = "t_submissionStatus")
    private String tSubmissionStatus;
