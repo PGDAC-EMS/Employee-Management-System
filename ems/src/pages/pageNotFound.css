@@ -1,0 +1,16 @@
+.notFound {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+      color: red;
+      margin-top: 50px;
+      margin-left: 100px;
+  }
+  .NotFoundImg{
+    background-image: url('../images/notFound.jpg');
+    height: 600px;
+    width: 1100px;
+    
+    margin: 0px;
+    background-repeat: no-repeat;
+    background-size: cover;  
+  }
